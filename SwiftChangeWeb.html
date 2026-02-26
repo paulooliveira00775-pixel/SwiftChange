@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SwiftChange - Calculadora de Troco Inteligente</title>
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/paulooliveira00775-pixel/SwiftChange/refs/heads/main/13%20Sem%20T%C3%ADtulo_20260226131531.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0f0c29;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            min-height: 100vh;
+            color: #e2e8f0;
+            overflow-x: hidden;
+        }
+
+        .glass {
+            background: rgba(30, 30, 50, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .glass-light {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .glow-indigo {
+            box-shadow: 0 0 40px rgba(99, 102, 241, 0.3), 0 0 80px rgba(99, 102, 241, 0.1);
+        }
+
+        .text-glow {
+            text-shadow: 0 0 30px rgba(99, 102, 241, 0.5);
+        }
+
+        .btn-download {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .btn-download::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .btn-download:hover::before {
+            left: 100%;
+        }
+
+        .btn-download:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-download:active {
+            transform: translateY(-1px);
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(99, 102, 241, 0.3);
+            transform: translateY(-5px);
+        }
+
+        .phone-mockup {
+            background: linear-gradient(145deg, #1a1a2e, #16213e);
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-radius: 2.5rem;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5), 0 0 60px rgba(99, 102, 241, 0.15);
+            position: relative;
+        }
+
+        .phone-mockup::before {
+            content: '';
+            position: absolute;
+            top: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        .phone-screen-item {
+            background: rgba(15, 15, 25, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .float-coin {
+            animation: floatCoin 6s ease-in-out infinite;
+        }
+
+        .float-coin-2 {
+            animation: floatCoin 8s ease-in-out infinite reverse;
+        }
+
+        .float-coin-3 {
+            animation: floatCoin 7s ease-in-out 1s infinite;
+        }
+
+        @keyframes floatCoin {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+        }
+
+        .pulse-dot {
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.5); }
+        }
+
+        .fade-up {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .navbar {
+            background: rgba(15, 12, 41, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .stat-number {
+            background: linear-gradient(135deg, #6366f1, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .app-logo {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            object-fit: cover;
+        }
+
+        .app-logo-large {
+            width: 80px;
+            height: 80px;
+            border-radius: 24px;
+            object-fit: cover;
+        }
+
+        .app-logo-small {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
+
+        @media (max-width: 768px) {
+            .hero-title { font-size: 2.5rem !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== NAVBAR ===== -->
+    <nav class="navbar fixed top-0 w-full z-50 px-6 py-4">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <img src="https://raw.githubusercontent.com/paulooliveira00775-pixel/SwiftChange/refs/heads/main/13%20Sem%20T%C3%ADtulo_20260226131531.png" alt="SwiftChange Logo" class="app-logo shadow-lg">
+                <span class="text-lg font-bold tracking-tight">Swift<span class="text-indigo-400">Change</span></span>
+            </div>
+
+            <div class="hidden md:flex items-center gap-8">
+                <a href="#funcionalidades" class="text-sm text-slate-400 hover:text-white transition-colors">Funcionalidades</a>
+                <a href="#como-funciona" class="text-sm text-slate-400 hover:text-white transition-colors">Como Funciona</a>
+                <a href="#download" class="btn-download px-5 py-2.5 rounded-xl text-sm font-semibold text-white">
+                    Download Grátis
+                </a>
+            </div>
+
+            <a href="#download" class="md:hidden btn-download px-4 py-2 rounded-xl text-xs font-semibold text-white">
+                Download
+            </a>
+        </div>
+    </nav>
+
+    <!-- ===== HERO SECTION ===== -->
+    <section class="relative pt-32 pb-20 px-6">
+        <div class="absolute top-20 left-10 w-72 h-72 bg-indigo-500/10 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-10 right-10 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl"></div>
+
+        <div class="max-w-6xl mx-auto">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+
+                <div class="text-center lg:text-left">
+                    <div class="inline-flex items-center gap-2 glass-light rounded-full px-4 py-2 mb-8">
+                        <span class="w-2 h-2 bg-green-400 rounded-full pulse-dot"></span>
+                        <span class="text-xs font-medium text-slate-300">Versão 1.0 Disponível</span>
+                    </div>
+
+                    <h1 class="hero-title text-5xl md:text-6xl font-black leading-tight mb-6">
+                        Calcule seu troco em
+                        <span class="text-glow bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
+                            segundos
+                        </span>
+                    </h1>
+
+                    <p class="text-lg text-slate-400 leading-relaxed mb-10 max-w-lg mx-auto lg:mx-0">
+                        O SwiftChange calcula automaticamente a melhor combinação de cédulas e moedas para o seu troco. Suporte para Real, Dólar e Euro.
+                    </p>
+
+                    <!-- Apenas botão de Download -->
+                    <div class="flex justify-center lg:justify-start">
+                        <a href="SwiftChange.apk" download class="btn-download px-8 py-4 rounded-2xl text-base font-bold text-white flex items-center justify-center gap-3">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                            </svg>
+                            Download APK Grátis
+                        </a>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-6 mt-12 pt-8 border-t border-white/5">
+                        <div>
+                            <div class="stat-number text-2xl font-black">3</div>
+                            <div class="text-xs text-slate-500 mt-1">Moedas</div>
+                        </div>
+                        <div>
+                            <div class="stat-number text-2xl font-black">100%</div>
+                            <div class="text-xs text-slate-500 mt-1">Gratuito</div>
+                        </div>
+                        <div>
+                            <div class="stat-number text-2xl font-black">&lt;1s</div>
+                            <div class="text-xs text-slate-500 mt-1">Cálculo</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Phone Mockup -->
+                <div class="flex justify-center lg:justify-end">
+                    <div class="phone-mockup w-72 p-4 pt-10">
+                        <div class="rounded-2xl overflow-hidden">
+                            <div class="bg-gradient-to-b from-[#1a1a35] to-[#13132a] p-5">
+                                <div class="flex justify-between items-center mb-6">
+                                    <div class="flex items-center gap-2">
+                                        <img src="https://raw.githubusercontent.com/paulooliveira00775-pixel/SwiftChange/refs/heads/main/13%20Sem%20T%C3%ADtulo_20260226131531.png" alt="Logo" class="w-5 h-5 rounded-md">
+                                        <span class="text-sm font-semibold opacity-70">SwiftChange</span>
+                                    </div>
+                                    <span class="text-[10px] bg-indigo-600/30 text-indigo-300 px-2 py-1 rounded-md">🇧🇷 BRL</span>
+                                </div>
+
+                                <div class="space-y-3 mb-5">
+                                    <div class="phone-screen-item rounded-xl p-3 flex items-center">
+                                        <span class="text-slate-500 text-xs font-bold mr-2">R$</span>
+                                        <span class="text-white font-medium text-sm">47,50</span>
+                                    </div>
+                                    <div class="phone-screen-item rounded-xl p-3 flex items-center">
+                                        <span class="text-slate-500 text-xs font-bold mr-2">R$</span>
+                                        <span class="text-white font-medium text-sm">100,00</span>
+                                    </div>
+                                </div>
+
+                                <div class="border-t border-white/10 pt-4">
+                                    <div class="flex justify-between items-center mb-4">
+                                        <span class="text-xs text-slate-500">Troco Total:</span>
+                                        <span class="text-lg font-bold text-green-400">R$ 52,50</span>
+                                    </div>
+
+                                    <div class="grid grid-cols-2 gap-2">
+                                        <div class="bg-white/5 rounded-lg p-2 text-center">
+                                            <div class="text-[8px] text-indigo-400 font-bold">1X NOTA</div>
+                                            <div class="text-xs font-bold mt-0.5">R$ 50,00</div>
+                                        </div>
+                                        <div class="bg-white/5 rounded-lg p-2 text-center">
+                                            <div class="text-[8px] text-indigo-400 font-bold">1X NOTA</div>
+                                            <div class="text-xs font-bold mt-0.5">R$ 2,00</div>
+                                        </div>
+                                        <div class="bg-white/5 rounded-lg p-2 text-center">
+                                            <div class="text-[8px] text-yellow-500 font-bold">1X MOEDA</div>
+                                            <div class="text-xs font-bold mt-0.5">R$ 0,50</div>
+                                        </div>
+                                        <div class="bg-white/5 rounded-lg p-2 text-center border border-dashed border-white/10">
+                                            <div class="text-[8px] text-slate-500">✓ Exato</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex justify-center mt-4">
+                            <div class="w-24 h-1 bg-white/20 rounded-full"></div>
+                        </div>
+                    </div>
+
+                    <div class="hidden lg:block">
+                        <div class="absolute right-20 top-48 float-coin">
+                            <div class="glass-light w-14 h-14 rounded-2xl flex items-center justify-center text-2xl">💵</div>
+                        </div>
+                        <div class="absolute right-10 bottom-32 float-coin-2">
+                            <div class="glass-light w-12 h-12 rounded-2xl flex items-center justify-center text-xl">🪙</div>
+                        </div>
+                        <div class="absolute right-72 bottom-20 float-coin-3">
+                            <div class="glass-light w-10 h-10 rounded-2xl flex items-center justify-center text-lg">💰</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FEATURES SECTION ===== -->
+    <section id="funcionalidades" class="py-24 px-6">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16 fade-up">
+                <span class="text-xs font-bold uppercase tracking-widest text-indigo-400 mb-4 block">Funcionalidades</span>
+                <h2 class="text-3xl md:text-4xl font-black mb-4">Tudo que você precisa</h2>
+                <p class="text-slate-400 max-w-md mx-auto">Simples, rápido e preciso. Projetado para facilitar seu dia a dia.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="feature-card rounded-2xl p-8 fade-up">
+                    <div class="w-14 h-14 rounded-2xl bg-indigo-500/20 flex items-center justify-center mb-6">
+                        <svg class="w-7 h-7 text-indigo-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-bold mb-3">Cálculo Instantâneo</h3>
+                    <p class="text-sm text-slate-400 leading-relaxed">O troco é calculado em tempo real enquanto você digita. Sem botões, sem espera.</p>
+                </div>
+
+                <div class="feature-card rounded-2xl p-8 fade-up">
+                    <div class="w-14 h-14 rounded-2xl bg-green-500/20 flex items-center justify-center mb-6">
+                        <svg class="w-7 h-7 text-green-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-bold mb-3">Sugestão Inteligente</h3>
+                    <p class="text-sm text-slate-400 leading-relaxed">Mostra a melhor combinação de cédulas e moedas para compor o troco exato.</p>
+                </div>
+
+                <div class="feature-card rounded-2xl p-8 fade-up">
+                    <div class="w-14 h-14 rounded-2xl bg-purple-500/20 flex items-center justify-center mb-6">
+                        <svg class="w-7 h-7 text-purple-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-bold mb-3">Multi-Moeda</h3>
+                    <p class="text-sm text-slate-400 leading-relaxed">Suporte para Real (BRL), Dólar (USD) e Euro (EUR) com suas cédulas e moedas reais.</p>
+                </div>
+
+                <div class="feature-card rounded-2xl p-8 fade-up">
+                    <div class="w-14 h-14 rounded-2xl bg-yellow-500/20 flex items-center justify-center mb-6">
+                        <svg class="w-7 h-7 text-yellow-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-bold mb-3">Design Premium</h3>
+                    <p class="text-sm text-slate-400 leading-relaxed">Interface escura com efeito glassmorphism. Bonito de usar, fácil de entender.</p>
+                </div>
+
+                <div class="feature-card rounded-2xl p-8 fade-up">
+                    <div class="w-14 h-14 rounded-2xl bg-cyan-500/20 flex items-center justify-center mb-6">
+                        <svg class="w-7 h-7 text-cyan-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-bold mb-3">100% Offline</h3>
+                    <p class="text-sm text-slate-400 leading-relaxed">Funciona sem internet. Sem anúncios, sem rastreamento, sem cadastro.</p>
+                </div>
+
+                <div class="feature-card rounded-2xl p-8 fade-up">
+                    <div class="w-14 h-14 rounded-2xl bg-rose-500/20 flex items-center justify-center mb-6">
+                        <svg class="w-7 h-7 text-rose-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+            
